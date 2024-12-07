@@ -1,6 +1,7 @@
 require('dotenv').config();
 
-import { Express } from "express";
+import express, { Express } from "express";
+import path from 'path';
 import { Connection } from "mysql2/promise";
 import { initDataBase } from "./Server/services/db";
 import { initServer } from "./Server/services/server";
@@ -24,9 +25,12 @@ function initRouter() {
   const shopAdmin = ShopAdmin();
   server.use("/admin", shopAdmin);
 
-  server.use("/", (_, res) => {
-    res.send("React App");
+  server.use(express.static(path.join(__dirname, 'Shop.Client/dist')));
+
+  server.use('/', (_, res) => {
+    res.sendFile(path.join(__dirname, '../Shop.Client/dist', 'index.html'));
   });
+  
 }
 
 launchApplication();

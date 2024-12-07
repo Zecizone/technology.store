@@ -1,9 +1,9 @@
 import {Link} from "react-router-dom";
 import {ProductsContext} from "../Context";
 import {useContext} from "react";
-import HOST from './urls';
 
 export default function Main() {
+    const HOST = `http://${import.meta.env.VITE_LOCAL_PATH}:${import.meta.env.VITE_LOCAL_PORT}`;
     const productsContext = useContext(ProductsContext);
     const calcTotalPrice = () => {
         const { products } = productsContext;

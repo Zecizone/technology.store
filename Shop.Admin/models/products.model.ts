@@ -1,7 +1,8 @@
 import axios from "axios";
 import { IProduct, IProductFilterPayload } from "@Shared/types";
 import { IProductEditData } from "../types";
-import { API_HOST } from "./const";
+
+const API_HOST = `http://${process.env.LOCAL_PATH}:${process.env.LOCAL_PORT}/${process.env.API_PATH}`;
 
 export async function getProducts(): Promise<IProduct[]> {
   const { data } = await axios.get<IProduct[]>(`${API_HOST}/products`);
