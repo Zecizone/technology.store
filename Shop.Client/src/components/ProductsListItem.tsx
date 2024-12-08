@@ -7,16 +7,16 @@ interface IProductProps {
 }
 
 const ProductsListItem: FunctionComponent<IProductProps> = ({product}) => {
-    const imgUrl = product.thumbnail?.url ?? "../product-placeholder.png";
+    const imgUrl = product.thumbnail?.url ?? "../../public/product-placeholder.png";
     return (
         <div>
-            <Link to={`/products/${product.id}`}>
+            <Link to={`/${product.id}`}>
                 <div>
                     <img src={imgUrl} alt={product.title}/>
                 </div>
             </Link>
             <div>
-                <Link to={`/products/${product.id}`}>
+                <Link to={`/${product.id}`}>
                     <div>
                         {product.title}
                     </div>

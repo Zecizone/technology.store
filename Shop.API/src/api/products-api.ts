@@ -186,7 +186,7 @@ productsRouter.delete('/:id', async (
     );
 
     await connection.query<ResultSetHeader>(
-      "DELETE FROM similar_products WHERE first_product = ? OR second_product = ?",
+      "DELETE FROM similarproducts WHERE first_product = ? OR second_product = ?",
       [req.params.id, req.params.id]
     );
 
@@ -400,7 +400,7 @@ productsRouter.get(
 productsRouter.post(
   '/add-similar',
   [
-    body().custom(validateAddSimilarProductsBody)
+    validateAddSimilarProductsBody
   ],
   async (
     req: Request<{}, {}, AddSimilarProductsPayload>,
@@ -412,8 +412,13 @@ productsRouter.post(
         return res.status(400).json({ errors: errors.array() });
       }
 
+      for (const pairs of req.body) {
+        pairs.unshift(uuidv4())
+        console.log("ghfujehoisdafjpejrfpWQEJ")
+      }
+console.log(req.body)
       await connection.query<ResultSetHeader>(
-        "INSERT INTO similar_products (first_product, second_product) VALUES ?",
+        "INSERT INTO similarproducts (id, first_product, second_product) VALUES ?",
         [req.body]
       );
 

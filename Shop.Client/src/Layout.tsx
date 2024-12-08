@@ -21,7 +21,7 @@ export default function Layout() {
             <Routes>
                 <Route path='/' element={<Main/>}></Route>
                 <Route path='/products-list' element={<ProductsList/>}></Route>
-                <Route path='/products/:productId' element={<ProductPage/>}></Route>
+                <Route path='/:productId' element={<ProductPage/>}></Route>
             </Routes>
         </>
     )

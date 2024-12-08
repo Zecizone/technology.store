@@ -9,6 +9,7 @@ import { mapCommentEntity } from "./services/mapping";
 import { mapImageEntity } from "./services/mapping";
 import { IComment, IProduct, IProductImage } from "@Shared/types";
 import { isUUID } from "validator";
+import { body} from 'express-validator';
 
 type CommentValidator = (comment: CommentCreatePayload) => string | null;
 
@@ -153,31 +154,31 @@ export const enhanceProductsImages = (
   return products;
 }
 
-export const validateAddSimilarProductsBody = (items: AddSimilarProductsPayload = []): boolean => {
-  if (!Array.isArray(items)) {
-    throw new Error("Request body is not an array");
-  }
+export const validateAddSimilarProductsBody = body()
+  .isArray().withMessage('Request body is not an array')
+  .notEmpty().withMessage('An array is empty')
+  .custom((items) => {
+    items.forEach((connection, index) => {
+      if (!Array.isArray(connection) || connection.length !== 2) {
+        throw new Error(`An array element with index ${index} doesn't match a pair of ids`);
+      }
 
-  if (!items.length) {
-    throw new Error("An array is empty");
-  }
+      if (typeof connection[0] !== 'string' || typeof connection[1] !== 'string') {
+        throw new Error(`Both elements of the pair at index ${index} must be strings`);
+      }
 
-  items?.forEach((connection: [string, string], index) => {
-    if (connection?.length !== 2 || typeof connection?.[0] !== "string" || typeof connection?.[1] !== "string") {
-      throw new Error(`An array element with index ${index} doesn't match a pair of ids`);
-    }
+      if (!isUUID(connection[0])) {
+        throw new Error(`Value ${connection[0]} of the element with index ${index} is not UUID`);
+      }
 
-    if (!isUUID(connection[0])) {
-      throw new Error(`Value ${connection[0]} of the element with index ${index} is not UUID`);
-    }
-
-    if (!isUUID(connection[1])) {
-      throw new Error(`Value ${connection[1]} of the element with index ${index} is not UUID`);
-    }
+      if (!isUUID(connection[1])) {
+        throw new Error(`Value ${connection[1]} of the element with index ${index} is not UUID`);
+      }
+    });
+    return true; 
   });
 
-  return true;
-}
+
 
 export const validateRemoveSimilarProductsBody = (items: string[] = []): boolean => {
   if (!Array.isArray(items)) {

@@ -17,7 +17,7 @@ const SimilarProducts = ({similarTo}: ISimilarProductsProps) => {
             <h1>Похожие товары</h1>
             {similarProducts?.map(product =>
                 <div key={product.id}>
-                    <Link to={`/products/${product.id}`}> {product.title}</Link>
+                    <Link to={`/${product.id}`}> {product.title}</Link>
                     <div>{product.price}</div>
                 </div>
             )}

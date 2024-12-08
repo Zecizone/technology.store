@@ -48,7 +48,7 @@ export const UPDATE_PRODUCT_FIELDS = `
 `
 
 export const DELETE_SIMILAR_PRODUCTS = `
-  DELETE FROM similar_products 
+  DELETE FROM similarproducts 
   WHERE first_product IN (?)
   OR second_product IN (?);
 `;

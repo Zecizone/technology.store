@@ -4,6 +4,7 @@ import {useContext} from "react";
 
 export default function Main() {
     const HOST = `http://${import.meta.env.VITE_LOCAL_PATH}:${import.meta.env.VITE_LOCAL_PORT}`;
+
     const productsContext = useContext(ProductsContext);
     const calcTotalPrice = () => {
         const { products } = productsContext;
@@ -13,8 +14,7 @@ export default function Main() {
         }
 
         return products
-            .map((product) => product.price)
-            .reduce((accumulator, price) => accumulator + price, 0);
+            .reduce((accumulator, product) => accumulator + product.price, 0);
     };
 
     return (
